@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: farmsys-voicelink
+    runtime: docker
+    plan: free
+    region: frankfurt
+    healthCheckPath: /ready
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DEMO_MODE
+        value: "true"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_KEY
+        generateValue: true
+      - key: CALLE_API_KEY
+        sync: false
+      - key: CALLE_BASE_URL
+        value: https://api.heycall-e.com
+      - key: DATABASE_URL
+        fromDatabase:
+          name: farmsys-voicelink-db
+          property: connectionString
+
+databases:
+  - name: farmsys-voicelink-db
+    plan: free
+    region: frankfurt
+    databaseName: farmsys_voicelink
+    user: farmsys
